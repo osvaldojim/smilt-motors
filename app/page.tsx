@@ -286,10 +286,8 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="mt-5 border-t border-white/5 pt-5 text-center text-[11px] text-white/30">
-            2025 Smilt Motors - Republica Dominicana - Todos los derechos reservados
-            <br />
-            <span className="mt-1 block text-white/20">Desarrollado y disenado por <a href="https://instagram.com/osvaldojim" target="_blank" rel="noopener noreferrer" className="hover:text-[#7cff00] transition">@osvaldojim</a></span>
+          <div className="mt-5 border-t border-white/5 pt-5 text-center">
+            <span className="text-[13px] font-black uppercase text-white/40">Desarrollado y Disenado por <a href="https://instagram.com/osvaldojim" target="_blank" rel="noopener noreferrer" className="text-[#7cff00] hover:text-white transition">@osvaldojim</a></span>
           </div>
         </footer>
 
