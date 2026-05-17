@@ -1,14 +1,14 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 
 const NAV_LINKS = ["Inicio", "Motos", "Electricas", "Financiamiento", "Accesorios", "Sucursales", "Contacto"];
 
 const FEATURES = [
-  { icon: "shield", title: "MEJORES MARCAS", sub: "GARANTIA OFICIAL" },
-  { icon: "card", title: "FINANCIAMIENTO", sub: "FACIL Y RAPIDO" },
-  { icon: "tool", title: "SERVICIO TECNICO", sub: "ESPECIALIZADO" },
-  { icon: "gear", title: "REPUESTOS ORIGINALES", sub: "SIEMPRE DISPONIBLES" },
+  { title: "MEJORES MARCAS", sub: "GARANTIA OFICIAL" },
+  { title: "FINANCIAMIENTO", sub: "FACIL Y RAPIDO" },
+  { title: "SERVICIO TECNICO", sub: "ESPECIALIZADO" },
+  { title: "REPUESTOS ORIGINALES", sub: "SIEMPRE DISPONIBLES" },
 ];
 
 const BRANDS_TABS = ["Todas", "Honda", "Yamaha", "HK1 Striker", "Tauro", "Kymco"];
@@ -81,20 +81,20 @@ export default function Home() {
 
         <section id="inicio" className="relative h-[460px] overflow-hidden sm:h-[500px]">
           <img src="/smilt/garage.jpg" alt="Smilt Motors" className="absolute inset-0 h-full w-full object-cover object-center" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/30 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
           <div className="relative z-10 flex h-full items-center px-8 lg:px-12">
             <div className="max-w-[540px]">
               <p className="mb-3 text-[11px] font-black uppercase tracking-[0.25em] text-[#7cff00]">Distribuidor oficial</p>
-              <h1 className="text-[64px] font-black uppercase italic leading-[0.85] tracking-[-0.04em] sm:text-[80px]">
+              <h1 className="text-[56px] font-black uppercase italic leading-[0.88] tracking-[-0.04em] sm:text-[72px]">
                 Motos?<br />
                 <span className="text-[#7cff00]">Smilt Motors</span><br />
                 es la respuesta.
               </h1>
-              <p className="mt-5 text-[15px] font-black uppercase leading-snug text-white/90">Las mejores marcas, precios<br />y financiamiento a tu alcance.</p>
+              <p className="mt-5 text-[14px] font-black uppercase leading-snug text-white/90">Las mejores marcas, precios<br />y financiamiento a tu alcance.</p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <a href="#modelos" className="rounded-xl bg-[#7cff00] px-8 py-3.5 text-[14px] font-black text-black transition hover:scale-105 hover:bg-[#90ff20]">VER MODELOS</a>
-                <a href="#financiamiento" className="rounded-xl border border-white/30 bg-black/30 px-8 py-3.5 text-[14px] font-black backdrop-blur-sm transition hover:bg-white/10">FINANCIAR AHORA</a>
+                <a href="#financiamiento" className="rounded-xl border border-white/30 bg-black/40 px-8 py-3.5 text-[14px] font-black backdrop-blur-sm transition hover:bg-white/10">FINANCIAR AHORA</a>
               </div>
             </div>
           </div>
@@ -104,7 +104,9 @@ export default function Home() {
           <div className="grid overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((f, i) => (
               <div key={f.title} className={"flex items-center gap-4 p-5 " + (i < 3 ? "border-b border-white/10 lg:border-b-0 lg:border-r" : "")}>
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#7cff00]/10 text-xl">{f.icon}</div>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#7cff00]/15 text-[#7cff00] font-black text-lg">
+                  {i === 0 ? "S" : i === 1 ? "$" : i === 2 ? "T" : "R"}
+                </div>
                 <div>
                   <div className="text-[13px] font-black">{f.title}</div>
                   <div className="text-[11px] text-white/50">{f.sub}</div>
@@ -132,7 +134,7 @@ export default function Home() {
             <div key={card.image} className="group overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] transition hover:border-[#7cff00]/30">
               <div className="relative h-[380px] overflow-hidden">
                 <img src={card.image} alt={card.brand + " " + card.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <div className={"text-[11px] font-black uppercase tracking-widest " + card.color}>{card.brand}</div>
                   <div className={"text-[28px] font-black italic uppercase leading-none " + card.color}>{card.name}</div>
@@ -199,7 +201,7 @@ export default function Home() {
         <section id="accesorios" className="grid gap-4 px-4 pt-6 sm:px-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="relative overflow-hidden rounded-2xl">
             <img src="/smilt/casco.jpg" alt="Cascos Xecuro" className="h-[220px] w-full object-cover lg:h-[260px]" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
             <div className="absolute bottom-5 left-5">
               <div className="text-[13px] font-black uppercase text-[#7cff00]">Los que llegan lejos,</div>
               <div className="text-[28px] font-black italic uppercase leading-tight">SALEN PROTEGIDOS</div>
