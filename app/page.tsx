@@ -251,7 +251,7 @@ export default function Home() {
               <button onClick={() => scrollTo("#sucursales")} className="mt-4 w-full rounded-xl bg-[#7cff00] py-3 text-[12px] font-black uppercase text-black transition hover:bg-[#90ff20]">SOLICITAR INFORMACION</button>
               <div className="mt-4 overflow-hidden rounded-2xl border border-[#7cff00]/20">
                 <div className="relative">
-                  <img src="/smilt/llevatelo-fiao.jpg" alt="Llevatelo Fiao" className="h-[260px] w-full object-cover object-top" />
+                  <img src="/smilt/llevatelo-fiao.jpg" alt="Llevatelo Fiao" className="h-[420px] w-full object-cover" style={{ objectPosition: "center 20%" }} />
                 </div>
                 <div className="bg-black/60 p-4 text-center">
                   <a href="https://wa.me/18095747925?text=Hola%2C%20me%20interesa%20llevarme%20la%20HK1%20Striker%20fiada." target="_blank" rel="noopener noreferrer" className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] py-3 text-[13px] font-black uppercase text-white transition hover:bg-[#20bd5a]">
