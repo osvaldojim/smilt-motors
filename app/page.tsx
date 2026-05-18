@@ -45,7 +45,7 @@ const SUCURSALES = [
 export default function Home() {
   const [activeTab, setActiveTab] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-  const heroImgRef = useRef<HTMLImageElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const scrollTo = (href: string) => {
     const el = document.querySelector(href);
@@ -54,24 +54,20 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const img = heroImgRef.current;
-    if (!img) return;
-    let ticking = false;
     const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const scrollY = window.scrollY;
-          if (img) {
-            img.style.transform = `scale(1.3) translateY(${scrollY * 0.35}px)`;
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
+      const heroHeight = window.innerHeight * 0.6;
+      const progress = Math.min(window.scrollY / heroHeight, 1);
+      setScrollProgress(progress);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const textOpacity = Math.max(0, 1 - scrollProgress * 2.5);
+  const leftX = -scrollProgress * 120;
+  const rightX = scrollProgress * 120;
+  const overlayOpacity = Math.max(0, 1 - scrollProgress * 1.4);
+  const img2Opacity = Math.min(1, scrollProgress * 1.8);
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -118,31 +114,44 @@ export default function Home() {
           </div>
         )}
 
-        <section id="inicio" className="relative h-[500px] overflow-hidden sm:h-[560px]">
-          <img
-            ref={heroImgRef}
-            src="/smilt/garage.jpg"
-            alt="Smilt Motors"
-            className="absolute inset-0 h-full w-full object-cover"
-            style={{ objectPosition: "center 40%", transform: "scale(1.3)", transformOrigin: "center top", willChange: "transform" }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/20" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
+        {/* HERO CON EFECTO REVEAL */}
+        <section id="inicio" className="relative h-[100vh] overflow-hidden" style={{ minHeight: "580px" }}>
+          <img src="/smilt/garage.jpg" alt="Smilt Motors" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "center 40%" }} />
+          <img src="/smilt/garage2.jpg" alt="Smilt Motors Reveal" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "center 40%", opacity: img2Opacity }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.3) 100%)", opacity: overlayOpacity }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%)", opacity: overlayOpacity }} />
+
           <div className="relative z-10 flex h-full items-center px-8 lg:px-12">
-            <div className="max-w-[560px]">
-              <p className="mb-3 text-[11px] font-black uppercase tracking-[0.25em] text-[#7cff00]">Distribuidor oficial</p>
-              <h1 className="text-[58px] font-black uppercase italic leading-[0.88] tracking-[-0.04em] sm:text-[76px]">
-                Motos?<br />
-                <span className="text-[#7cff00]">Smilt Motors</span><br />
-                es la respuesta.
-              </h1>
-              <p className="mt-5 text-[14px] font-black uppercase leading-snug text-white/90">Las mejores marcas, precios<br />y financiamiento a tu alcance.</p>
-              <div className="mt-8 flex flex-wrap gap-4">
+            <div className="max-w-[580px]" style={{ opacity: textOpacity }}>
+              <div style={{ transform: `translateX(${leftX}px)`, transition: "none" }}>
+                <p className="mb-3 text-[11px] font-black uppercase tracking-[0.25em] text-[#7cff00]">Distribuidor oficial</p>
+              </div>
+              <div style={{ transform: `translateX(${leftX * 1.2}px)`, transition: "none" }}>
+                <div className="text-[58px] font-black uppercase italic leading-[0.88] tracking-[-0.04em] sm:text-[76px]">Motos?</div>
+              </div>
+              <div style={{ transform: `translateX(${rightX * 1.1}px)`, transition: "none" }}>
+                <div className="text-[58px] font-black uppercase italic leading-[0.88] tracking-[-0.04em] sm:text-[76px] text-[#7cff00]">Smilt Motors</div>
+              </div>
+              <div style={{ transform: `translateX(${leftX * 0.9}px)`, transition: "none" }}>
+                <div className="text-[58px] font-black uppercase italic leading-[0.88] tracking-[-0.04em] sm:text-[76px]">es la respuesta.</div>
+              </div>
+              <div style={{ transform: `translateX(${rightX * 0.8}px)`, transition: "none" }} className="mt-5">
+                <p className="text-[14px] font-black uppercase leading-snug text-white/90">Las mejores marcas, precios<br />y financiamiento a tu alcance.</p>
+              </div>
+              <div style={{ transform: `translateX(${leftX * 0.7}px)`, transition: "none" }} className="mt-8 flex flex-wrap gap-4">
                 <button onClick={() => scrollTo("#modelos")} className="rounded-xl bg-[#7cff00] px-8 py-3.5 text-[14px] font-black text-black transition hover:scale-105 hover:bg-[#90ff20]">VER MODELOS</button>
                 <button onClick={() => scrollTo("#financiamiento")} className="rounded-xl border border-white/30 bg-black/40 px-8 py-3.5 text-[14px] font-black backdrop-blur-sm transition hover:bg-white/10">FINANCIAR AHORA</button>
               </div>
             </div>
           </div>
+
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2" style={{ opacity: textOpacity }}>
+            <span className="text-[9px] font-black uppercase tracking-[0.24em] text-white/40">scroll</span>
+            <div className="h-10 w-px bg-white/15 relative overflow-hidden">
+              <div className="absolute top-0 w-px h-full bg-[#7cff00]/60" style={{ animation: "scrolldown 2s ease-in-out infinite" }} />
+            </div>
+          </div>
+          <style>{`@keyframes scrolldown { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }`}</style>
         </section>
 
         <section className="px-4 pt-4 sm:px-6">
@@ -240,6 +249,14 @@ export default function Home() {
                 <div className="text-[12px] text-white/60 mt-1">Sin combustible - Sin emisiones - Mantenimiento minimo</div>
               </div>
               <button onClick={() => scrollTo("#sucursales")} className="mt-4 w-full rounded-xl bg-[#7cff00] py-3 text-[12px] font-black uppercase text-black transition hover:bg-[#90ff20]">SOLICITAR INFORMACION</button>
+              <div className="mt-4 rounded-xl border border-[#7cff00]/20 bg-black/40 p-4 text-center">
+                <div className="text-[22px] font-black italic uppercase text-white">LLEVATELO</div>
+                <div className="text-[28px] font-black italic uppercase text-[#7cff00] leading-none mb-4">FIAO</div>
+                <a href="https://wa.me/18095747925?text=Hola%2C%20me%20interesa%20llevarme%20la%20HK1%20Striker%20fiada." target="_blank" rel="noopener noreferrer" className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] py-3 text-[13px] font-black uppercase text-white transition hover:bg-[#20bd5a]">
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                  Contactar por WhatsApp
+                </a>
+              </div>
             </div>
           </div>
         </section>
