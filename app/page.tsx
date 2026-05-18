@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const NAV_LINKS = [
   { label: "Inicio", href: "#inicio" },
@@ -45,12 +45,33 @@ const SUCURSALES = [
 export default function Home() {
   const [activeTab, setActiveTab] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const heroImgRef = useRef<HTMLImageElement>(null);
 
   const scrollTo = (href: string) => {
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
+
+  useEffect(() => {
+    const img = heroImgRef.current;
+    if (!img) return;
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          if (img) {
+            img.style.transform = `scale(1.3) translateY(${scrollY * 0.35}px)`;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -98,7 +119,13 @@ export default function Home() {
         )}
 
         <section id="inicio" className="relative h-[500px] overflow-hidden sm:h-[560px]">
-          <img src="/smilt/garage.jpg" alt="Smilt Motors" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "center 60%", transform: "scale(1.15)", transformOrigin: "center center" }} />
+          <img
+            ref={heroImgRef}
+            src="/smilt/garage.jpg"
+            alt="Smilt Motors"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: "center 40%", transform: "scale(1.3)", transformOrigin: "center top", willChange: "transform" }}
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/20" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
           <div className="relative z-10 flex h-full items-center px-8 lg:px-12">
